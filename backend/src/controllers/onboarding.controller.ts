@@ -68,3 +68,19 @@ export async function updateProgress(
     next(err)
   }
 }
+
+export async function markComplete(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    await onboardingService.markOnboardingComplete(req.user!.userId)
+
+    logger.info('Onboarding marked complete', { userId: req.user!.userId })
+
+    res.json({ success: true })
+  } catch (err) {
+    next(err)
+  }
+}

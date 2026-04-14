@@ -35,19 +35,23 @@ export function formatDate(dateStr: string): string {
  * Step 3 counts as a bonus but is not required for 100%
  * 100% = steps 1, 2, 4 all complete
  */
-export function getOnboardingPercentage(completedSteps: number[]): number {
-  const requiredSteps = [1, 2, 4]
-  const completedRequired = requiredSteps.filter((s) =>
-    completedSteps.includes(s)
-  ).length
-  return Math.round((completedRequired / requiredSteps.length) * 100)
+export function getOnboardingPercentage(
+  completedSteps: number[],
+  isStarterPlan: boolean = false
+): number {
+  const requiredSteps = isStarterPlan ? [1, 2, 4] : [1, 2, 3, 4]
+  const completed = requiredSteps.filter((s) => completedSteps.includes(s)).length
+  return Math.round((completed / requiredSteps.length) * 100)
 }
 
 /**
  * Returns the next incomplete required step number.
  */
-export function getNextIncompleteStep(completedSteps: number[]): number {
-  const requiredSteps = [1, 2, 3, 4]
+export function getNextIncompleteStep(
+  completedSteps: number[],
+  isStarterPlan: boolean = false
+): number {
+  const requiredSteps = isStarterPlan ? [1, 2, 4] : [1, 2, 3, 4]
   for (const step of requiredSteps) {
     if (!completedSteps.includes(step)) return step
   }

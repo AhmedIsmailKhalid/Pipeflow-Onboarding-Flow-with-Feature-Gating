@@ -10,11 +10,18 @@
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 font-sans;
+    @apply bg-canvas text-rust-900 font-sans;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-rust-200 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-rust-300; }
 }
 
 @layer utilities {
@@ -22,7 +29,10 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+  .font-numeric {
+    font-variant-numeric: tabular-nums;
+    font-family: 'DM Mono', monospace;
   }
 }

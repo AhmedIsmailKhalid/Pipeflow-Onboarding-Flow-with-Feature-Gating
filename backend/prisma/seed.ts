@@ -22,15 +22,9 @@ const SEED_USERS: SeedUser[] = [
     name: 'Alex Chen',
     plan: Plan.STARTER,
     onboardingComplete: false,
-    completedSteps: [1],
-    stepAnswers: {
-      step1: {
-        role: 'Engineering Manager',
-        teamSize: '2-10',
-        useCase: 'Engineering',
-      },
-    },
-    lastActiveStep: 2,
+    completedSteps: [],
+    stepAnswers: {},
+    lastActiveStep: 1,
   },
   {
     email: 'growth@demo.com',

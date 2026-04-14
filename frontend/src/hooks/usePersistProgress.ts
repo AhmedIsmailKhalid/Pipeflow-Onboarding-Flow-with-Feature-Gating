@@ -54,7 +54,7 @@ export function usePersistProgress({ state, context }: PersistProgressOptions) {
         setCompletedSteps(context.completedSteps)
 
         // Mark onboarding complete locally when all required steps done
-        const requiredSteps = [1, 2, 4]
+        const requiredSteps = user?.plan === 'STARTER' ? [1, 2, 4] : [1, 2, 3, 4]
         const allRequiredDone = requiredSteps.every((s) =>
           context.completedSteps.includes(s)
         )

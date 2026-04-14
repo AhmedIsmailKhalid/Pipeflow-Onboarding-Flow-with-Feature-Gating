@@ -128,7 +128,7 @@ export function SignUpForm() {
 
       {/* Plan selector */}
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-slate-700">
+        <label className="text-sm font-medium text-rust-700">
           Choose a plan
         </label>
         <div className="flex flex-col gap-2">
@@ -143,26 +143,26 @@ export function SignUpForm() {
               />
               <div
                 className={cn(
-                  'border rounded-xl px-4 py-3 flex items-center justify-between transition-colors',
+                  'border rounded-lg px-4 py-3 flex items-center justify-between transition-colors cursor-pointer',
                   selectedPlan === option.value
-                    ? 'border-brand-500 bg-brand-50'
-                    : 'border-slate-200 hover:border-slate-300'
+                    ? 'border-brand-400 bg-brand-50'
+                    : 'border-rust-200 hover:border-rust-300 bg-rust-50'
                 )}
               >
                 <div>
-                  <p className="text-sm font-semibold text-slate-800">
+                  <p className="text-sm font-semibold text-rust-800">
                     {option.label}
                   </p>
-                  <p className="text-xs text-slate-500 mt-0.5">
+                  <p className="text-xs text-rust-400 mt-0.5">
                     {option.description}
                   </p>
                 </div>
                 <span
                   className={cn(
-                    'text-sm font-bold',
-                    selectedPlan === option.value
-                      ? 'text-brand-600'
-                      : 'text-slate-700'
+                    'text-sm font-bold font-numeric',
+                    selectedPlan === option.value 
+                    ? 'text-brand-600' 
+                    : 'text-rust-500'
                   )}
                 >
                   {option.price}
@@ -188,7 +188,7 @@ export function SignUpForm() {
         Create account
       </Button>
 
-      <p className="text-xs text-center text-slate-400">
+      <p className="text-xs text-center text-rust-400">
         By signing up you agree to our Terms of Service and Privacy Policy.
       </p>
     </form>

@@ -17,6 +17,7 @@ interface OnboardingProgressResponse {
 function AuthInitialiser() {
   const setAuth = useAuthStore((s) => s.setAuth)
   const setLoading = useAuthStore((s) => s.setLoading)
+  const setUser = useAuthStore((s) => s.setUser)
   const setPlan = useFeatureStore((s) => s.setPlan)
   const setCompletedSteps = useFeatureStore((s) => s.setCompletedSteps)
   const setProgress = useOnboardingStore((s) => s.setProgress)
@@ -30,12 +31,11 @@ function AuthInitialiser() {
         )
         const token = refreshData.accessToken
 
-        // Step 2 — set token in store AND on axios headers directly
-        // so the next requests go out with auth immediately
+        // Step 2 — set token immediately on both store and axios instance
         useAuthStore.getState().setAccessToken(token)
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
-        // Step 3 — fetch user + progress in parallel, both now have auth header
+        // Step 3 — fetch user + progress in parallel
         const [userRes, progressRes] = await Promise.all([
           api.get<User>('/user/me'),
           api.get<OnboardingProgressResponse>('/onboarding/progress'),
@@ -44,7 +44,7 @@ function AuthInitialiser() {
         const user = userRes.data
         const progress = progressRes.data
 
-        // Step 4 — populate all stores before router renders
+        // Step 4 — populate all stores
         setAuth(user, token)
         setPlan(user.plan)
         setCompletedSteps(progress.completedSteps)
@@ -53,6 +53,12 @@ function AuthInitialiser() {
           stepAnswers: progress.stepAnswers,
           lastActiveStep: progress.lastActiveStep,
         })
+
+        // Step 5 — if backend says onboardingComplete but local store
+        // somehow has it as false, force sync it
+        if (user.onboardingComplete) {
+          setUser({ ...user, onboardingComplete: true })
+        }
       } catch {
         setLoading(false)
       }

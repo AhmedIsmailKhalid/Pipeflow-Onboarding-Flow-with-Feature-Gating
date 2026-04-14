@@ -88,8 +88,8 @@ export function LoginForm() {
       </Button>
 
       {/* Demo credentials hint */}
-      <div className="bg-slate-50 border border-slate-100 rounded-xl p-3">
-        <p className="text-xs font-semibold text-slate-600 mb-1.5">
+      <div className="bg-rust-50 border border-rust-200 rounded-lg p-3">
+        <p className="text-xs font-semibold text-rust-500 mb-1.5">
           Demo accounts
         </p>
         <div className="flex flex-col gap-1">
@@ -99,14 +99,14 @@ export function LoginForm() {
             { email: 'scale@demo.com',   label: 'Scale plan' },
           ].map((demo) => (
             <p key={demo.email} className="text-xs text-slate-500">
-              <span className="font-mono">{demo.email}</span>
+              <span className="font-mono text-rust-700">{demo.email}</span>
               {' '}·{' '}
-              <span>{demo.label}</span>
+              <span className="text-rust-400">{demo.label}</span>
             </p>
           ))}
           <p className="text-xs text-slate-400 mt-1">
             Password for all:{' '}
-            <span className="font-mono font-semibold">Demo1234!</span>
+            <span className="font-mono font-semibold text-rust-700">Demo1234!</span>
           </p>
         </div>
       </div>

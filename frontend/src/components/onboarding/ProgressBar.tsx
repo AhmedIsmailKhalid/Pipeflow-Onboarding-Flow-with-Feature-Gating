@@ -6,7 +6,7 @@ interface ProgressBarProps {
 
 export function ProgressBar({ percentage }: ProgressBarProps) {
   return (
-    <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+    <div className="w-full h-1 rounded-full overflow-hidden bg-rust-200">
       <motion.div
         className="h-full bg-brand-500 rounded-full"
         initial={{ width: 0 }}

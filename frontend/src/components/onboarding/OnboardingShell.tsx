@@ -14,44 +14,42 @@ import { getOnboardingPercentage } from '@/lib/utils'
 import { Spinner } from '@/components/ui/Spinner'
 
 const slideVariants = {
-  enter: (direction: number) => ({
-    x: direction > 0 ? 40 : -40,
-    opacity: 0,
-  }),
+  enter:  (d: number) => ({ x: d > 0 ? 40 : -40, opacity: 0 }),
   center: { x: 0, opacity: 1 },
-  exit: (direction: number) => ({
-    x: direction > 0 ? -40 : 40,
-    opacity: 0,
-  }),
+  exit:   (d: number) => ({ x: d > 0 ? -40 : 40, opacity: 0 }),
 }
 
 export function OnboardingShell() {
   const navigate = useNavigate()
-  const { state, send, context, currentStep, completedSteps, isComplete } =
+  const { state, send, context, currentStep, completedSteps, isComplete, isStarterPlan } =
     useOnboardingMachine()
 
   usePersistProgress({ state, context })
 
-  // Small delay before navigating so the final sync in usePersistProgress
-  // has time to push completedSteps into the feature store
   useEffect(() => {
     if (!isComplete) return
-    const timer = setTimeout(() => {
-      navigate('/dashboard', { replace: true })
-    }, 300)
-    return () => clearTimeout(timer)
+    const t = setTimeout(() => navigate('/dashboard', { replace: true }), 300)
+    return () => clearTimeout(t)
   }, [isComplete, navigate])
 
   if (state.matches('idle') || state.matches('restoredStep')) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-canvas">
         <Spinner size="lg" />
       </div>
     )
   }
 
-  const percentage = getOnboardingPercentage(completedSteps)
-  const direction = 1
+  const totalSteps = isStarterPlan ? 4 : 5
+  const percentage = getOnboardingPercentage(completedSteps, isStarterPlan)
+
+  function getVisualStep(machineStep: number): number {
+    if (!isStarterPlan) return machineStep
+    if (machineStep <= 2) return machineStep
+    if (machineStep === 4) return 3
+    if (machineStep === 5) return 4
+    return machineStep
+  }
 
   const stepComponents: Record<number, React.ReactNode> = {
     1: <Step1Profile send={send} context={context} />,
@@ -62,40 +60,46 @@ export function OnboardingShell() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-brand-50 flex flex-col">
-      <header className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-white/80 backdrop-blur-sm">
+    <div className="min-h-screen bg-canvas flex flex-col">
+      {/* Header */}
+      <header className="flex items-center justify-between px-6 py-3.5 border-b border-rust-200 bg-white">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 bg-brand-600 rounded-lg flex items-center justify-center">
-            <span className="text-white text-xs font-bold">P</span>
+          <div className="w-6 h-6 bg-brand-500 rounded flex items-center justify-center">
+            <span className="text-white text-2xs font-bold">PF</span>
           </div>
-          <span className="font-semibold text-slate-900">Pipeflow</span>
+          <span className="font-semibold text-rust-900 text-sm tracking-tight">Pipeflow</span>
         </div>
-        <span className="text-sm text-slate-500">
-          Step {currentStep} of 5
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-rust-400 font-medium">
+            Step {getVisualStep(currentStep)} of {totalSteps}
+          </span>
+          <div className="w-24">
+            <ProgressBar percentage={percentage} />
+          </div>
+        </div>
       </header>
 
-      <div className="px-6 pt-6 pb-2 max-w-2xl mx-auto w-full">
-        <ProgressBar percentage={percentage} />
-        <div className="mt-6">
-          <StepIndicator
-            currentStep={currentStep}
-            completedSteps={completedSteps}
-          />
-        </div>
+      {/* Step indicator */}
+      <div className="px-6 pt-8 pb-2 max-w-2xl mx-auto w-full">
+        <StepIndicator
+          currentStep={currentStep}
+          completedSteps={completedSteps}
+          isStarterPlan={isStarterPlan}
+        />
       </div>
 
+      {/* Step content */}
       <main className="flex-1 flex items-start justify-center px-4 py-8">
         <div className="w-full max-w-lg">
-          <AnimatePresence mode="wait" custom={direction}>
+          <AnimatePresence mode="wait" custom={1}>
             <motion.div
               key={currentStep}
-              custom={direction}
+              custom={1}
               variants={slideVariants}
               initial="enter"
               animate="center"
               exit="exit"
-              transition={{ duration: 0.25, ease: 'easeInOut' }}
+              transition={{ duration: 0.2, ease: 'easeInOut' }}
             >
               {stepComponents[currentStep]}
             </motion.div>

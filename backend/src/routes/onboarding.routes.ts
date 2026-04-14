@@ -8,3 +8,4 @@ onboardingRoutes.use(requireAuth)
 
 onboardingRoutes.get('/progress', onboardingController.getProgress)
 onboardingRoutes.put('/progress', onboardingController.updateProgress)
+onboardingRoutes.post('/complete', onboardingController.markComplete)
