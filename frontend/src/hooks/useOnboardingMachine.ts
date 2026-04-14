@@ -62,8 +62,6 @@ export function useOnboardingMachine() {
     restoreProgress()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const isStarterPlan = user?.plan === 'STARTER'
-
   return {
     state,
     send,
