@@ -8,21 +8,15 @@ const globalForPrisma = globalThis as unknown as {
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
-    log: [
-      { emit: 'event', level: 'query' },
-      { emit: 'event', level: 'error' },
-      { emit: 'event', level: 'warn' },
-    ],
+    log: process.env.NODE_ENV === 'development'
+      ? ['query', 'error', 'warn']
+      : ['error'],
   })
 
 if (process.env.NODE_ENV !== 'production') {
-  prisma.$on('query', (e) => {
-    logger.debug('Prisma query', { query: e.query, duration: `${e.duration}ms` })
-  })
-
   globalForPrisma.prisma = prisma
 }
 
-prisma.$on('error', (e) => {
-  logger.error('Prisma error', { message: e.message })
+prisma.$connect().catch((e: Error) => {
+  logger.error('Prisma connection error', { message: e.message })
 })

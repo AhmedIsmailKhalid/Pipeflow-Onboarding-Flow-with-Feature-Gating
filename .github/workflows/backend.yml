@@ -49,6 +49,7 @@ jobs:
       - name: Install dependencies & typecheck
         run: |
           npm ci --workspace=backend
+          cd backend && npx prisma generate
           npm run typecheck --workspace=backend
 
       - name: Build Docker image

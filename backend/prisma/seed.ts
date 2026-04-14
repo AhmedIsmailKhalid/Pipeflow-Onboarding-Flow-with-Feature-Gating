@@ -1,4 +1,4 @@
-import { PrismaClient, Plan, Prisma } from '@prisma/client'
+import { PrismaClient, Plan } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
@@ -87,7 +87,8 @@ async function main() {
   const passwordHash = await bcrypt.hash(DEMO_PASSWORD, SALT_ROUNDS)
 
   for (const seedUser of SEED_USERS) {
-    const stepAnswers = seedUser.stepAnswers as unknown as Prisma.InputJsonValue
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const stepAnswers = seedUser.stepAnswers as any
 
     const user = await prisma.user.create({
       data: {

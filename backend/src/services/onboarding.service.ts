@@ -68,7 +68,10 @@ export async function updateProgress(
     input.completedSteps.includes(s)
   )
 
-  const stepAnswers = input.stepAnswers as unknown as Prisma.InputJsonValue
+  // Remove: import { Prisma } from '@prisma/client'
+  // Replace the cast line with:
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const stepAnswers = input.stepAnswers as any
 
   const [progress] = await prisma.$transaction([
     prisma.onboardingProgress.update({
