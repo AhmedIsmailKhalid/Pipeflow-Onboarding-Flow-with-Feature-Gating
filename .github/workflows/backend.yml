@@ -46,11 +46,14 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install dependencies & typecheck
-        run: |
-          npm ci --workspace=backend
-          cd backend && npx prisma generate
-          npm run typecheck --workspace=backend
+      - name: Install dependencies
+        run: npm ci --workspace=backend
+
+      - name: Generate Prisma client
+        run: cd backend && npx prisma generate
+
+      - name: Typecheck
+        run: npm run typecheck --workspace=backend
 
       - name: Build Docker image
         run: |
