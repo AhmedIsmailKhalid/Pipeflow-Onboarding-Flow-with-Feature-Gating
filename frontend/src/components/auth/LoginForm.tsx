@@ -8,9 +8,10 @@ import { Input } from '@/components/ui/Input'
 import { useAuth } from '@/hooks/useAuth'
 import { useOnboardingStore } from '@/stores/onboarding.store'
 import { useFeatureStore } from '@/stores/feature.store'
+import { useAuthStore } from '@/stores/auth.store'
 import { api } from '@/lib/api'
 import { AuthResponse } from '@/types/auth.types'
-import { useAuthStore } from '@/stores/auth.store'
+import { StepAnswers } from '@/machines/onboarding.types'
 
 const schema = z.object({
   email: z.string().email('Invalid email address'),
@@ -39,26 +40,52 @@ export function LoginForm() {
 
       const { data: response } = await api.post<AuthResponse>('/auth/login', data)
 
-      // Reset stores before setting new session
-      useOnboardingStore.getState().reset()
-      useFeatureStore.getState().setCompletedSteps([])
-      useFeatureStore.getState().setPlan(response.user.plan)
-
       login(response.user, response.accessToken)
       api.defaults.headers.common['Authorization'] = `Bearer ${response.accessToken}`
 
-      // Demo starter account always restarts onboarding from step 1
       if (response.user.email === 'starter@demo.com') {
-        // Force reset all stores synchronously before navigation
+        // Starter always restarts from step 1
         useOnboardingStore.getState().reset()
         useFeatureStore.getState().setCompletedSteps([])
         useFeatureStore.getState().setPlan('STARTER')
         useAuthStore.getState().setUser({ ...response.user, onboardingComplete: false })
-      navigate('/onboarding', { replace: true })
-      } else if (response.user.onboardingComplete) {
-        navigate('/dashboard', { replace: true })
-      } else {
         navigate('/onboarding', { replace: true })
+      } else if (response.user.email === 'growth@demo.com') {
+        // Growth always resumes from step 4 with steps 1,2,3 complete
+        const growthProgress = {
+          completedSteps: [1, 2, 3],
+          stepAnswers: {},
+          lastActiveStep: 4,
+        }
+        useOnboardingStore.getState().setProgress(growthProgress)
+        useFeatureStore.getState().setCompletedSteps([1, 2, 3])
+        useFeatureStore.getState().setPlan('GROWTH')
+        useAuthStore.getState().setUser({ ...response.user, onboardingComplete: false })
+        navigate('/onboarding', { replace: true })
+      } else {
+        // All other accounts — fetch real progress
+        try {
+          const { data: progress } = await api.get<{
+            completedSteps: number[]
+            stepAnswers: Record<string, unknown>
+            lastActiveStep: number
+          }>('/onboarding/progress')
+          useFeatureStore.getState().setCompletedSteps(progress.completedSteps)
+          useFeatureStore.getState().setPlan(response.user.plan)
+          useOnboardingStore.getState().setProgress({
+            completedSteps: progress.completedSteps,
+            stepAnswers: progress.stepAnswers as StepAnswers,
+            lastActiveStep: progress.lastActiveStep,
+          })
+        } catch {
+          useFeatureStore.getState().setPlan(response.user.plan)
+        }
+
+        if (response.user.onboardingComplete) {
+          navigate('/dashboard', { replace: true })
+        } else {
+          navigate('/onboarding', { replace: true })
+        }
       }
     } catch (err: unknown) {
       const message =

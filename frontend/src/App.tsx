@@ -44,12 +44,22 @@ function AuthInitialiser() {
         setAuth(user, token)
         setPlan(user.plan)
 
-        // Demo starter account always starts fresh — ignore DB progress
         if (user.email === 'starter@demo.com') {
+          // Starter always starts fresh from step 1
           setCompletedSteps([])
           setProgress({ completedSteps: [], stepAnswers: {}, lastActiveStep: 1 })
           setUser({ ...user, onboardingComplete: false })
+        } else if (user.email === 'growth@demo.com') {
+          // Growth always shows resume banner with steps 1-3 complete
+          setCompletedSteps([1, 2, 3])
+          setProgress({
+            completedSteps: [1, 2, 3],
+            stepAnswers: progress.stepAnswers,
+            lastActiveStep: 4,
+          })
+          setUser({ ...user, onboardingComplete: false })
         } else {
+          // All other accounts use real DB state
           setCompletedSteps(progress.completedSteps)
           setProgress({
             completedSteps: progress.completedSteps,
