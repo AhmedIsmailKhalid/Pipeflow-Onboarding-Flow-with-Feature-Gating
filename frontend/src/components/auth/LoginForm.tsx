@@ -6,8 +6,11 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { useAuth } from '@/hooks/useAuth'
+import { useOnboardingStore } from '@/stores/onboarding.store'
+import { useFeatureStore } from '@/stores/feature.store'
 import { api } from '@/lib/api'
 import { AuthResponse } from '@/types/auth.types'
+import { useAuthStore } from '@/stores/auth.store'
 
 const schema = z.object({
   email: z.string().email('Invalid email address'),
@@ -32,16 +35,27 @@ export function LoginForm() {
   async function onSubmit(data: FormData) {
     setServerError(null)
     try {
-      // Clear stale auth header before logging in
       delete api.defaults.headers.common['Authorization']
 
       const { data: response } = await api.post<AuthResponse>('/auth/login', data)
-      login(response.user, response.accessToken)
 
-      // Set the new token immediately on the axios instance
+      // Reset stores before setting new session
+      useOnboardingStore.getState().reset()
+      useFeatureStore.getState().setCompletedSteps([])
+      useFeatureStore.getState().setPlan(response.user.plan)
+
+      login(response.user, response.accessToken)
       api.defaults.headers.common['Authorization'] = `Bearer ${response.accessToken}`
 
-      if (response.user.onboardingComplete) {
+      // Demo starter account always restarts onboarding from step 1
+      if (response.user.email === 'starter@demo.com') {
+        // Force reset all stores synchronously before navigation
+        useOnboardingStore.getState().reset()
+        useFeatureStore.getState().setCompletedSteps([])
+        useFeatureStore.getState().setPlan('STARTER')
+        useAuthStore.getState().setUser({ ...response.user, onboardingComplete: false })
+      navigate('/onboarding', { replace: true })
+      } else if (response.user.onboardingComplete) {
         navigate('/dashboard', { replace: true })
       } else {
         navigate('/onboarding', { replace: true })

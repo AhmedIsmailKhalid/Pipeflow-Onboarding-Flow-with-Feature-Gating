@@ -25,17 +25,14 @@ function AuthInitialiser() {
   useEffect(() => {
     async function checkSession() {
       try {
-        // Step 1 — get fresh access token
         const { data: refreshData } = await api.post<{ accessToken: string }>(
           '/auth/refresh'
         )
         const token = refreshData.accessToken
 
-        // Step 2 — set token immediately on both store and axios instance
         useAuthStore.getState().setAccessToken(token)
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
-        // Step 3 — fetch user + progress in parallel
         const [userRes, progressRes] = await Promise.all([
           api.get<User>('/user/me'),
           api.get<OnboardingProgressResponse>('/onboarding/progress'),
@@ -44,20 +41,24 @@ function AuthInitialiser() {
         const user = userRes.data
         const progress = progressRes.data
 
-        // Step 4 — populate all stores
         setAuth(user, token)
         setPlan(user.plan)
-        setCompletedSteps(progress.completedSteps)
-        setProgress({
-          completedSteps: progress.completedSteps,
-          stepAnswers: progress.stepAnswers,
-          lastActiveStep: progress.lastActiveStep,
-        })
 
-        // Step 5 — if backend says onboardingComplete but local store
-        // somehow has it as false, force sync it
-        if (user.onboardingComplete) {
-          setUser({ ...user, onboardingComplete: true })
+        // Demo starter account always starts fresh — ignore DB progress
+        if (user.email === 'starter@demo.com') {
+          setCompletedSteps([])
+          setProgress({ completedSteps: [], stepAnswers: {}, lastActiveStep: 1 })
+          setUser({ ...user, onboardingComplete: false })
+        } else {
+          setCompletedSteps(progress.completedSteps)
+          setProgress({
+            completedSteps: progress.completedSteps,
+            stepAnswers: progress.stepAnswers,
+            lastActiveStep: progress.lastActiveStep,
+          })
+          if (user.onboardingComplete) {
+            setUser({ ...user, onboardingComplete: true })
+          }
         }
       } catch {
         setLoading(false)

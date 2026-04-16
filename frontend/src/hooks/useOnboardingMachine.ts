@@ -9,6 +9,7 @@ import { OnboardingProgressResponse } from '@/types/onboarding.types'
 import { StepAnswers } from '@/machines/onboarding.types'
 import { User } from '@/types/auth.types'
 
+
 export function useOnboardingMachine() {
   const [state, send] = useMachine(onboardingMachine)
   const setProgress = useOnboardingStore((s) => s.setProgress)
@@ -20,7 +21,6 @@ export function useOnboardingMachine() {
   useEffect(() => {
     async function restoreProgress() {
       try {
-        // Ensure we have the latest user data — re-fetch if needed
         let currentUser = user
         if (!currentUser && accessToken) {
           const { data: freshUser } = await api.get<User>('/user/me')
@@ -29,6 +29,17 @@ export function useOnboardingMachine() {
         }
 
         const isStarterPlan = currentUser?.plan === 'STARTER'
+
+        // Demo starter account always starts from step 1
+        const isDemoStarterAccount = currentUser?.email === 'starter@demo.com'
+
+        if (isDemoStarterAccount) {
+          // Reset progress in stores so dashboard gates work correctly
+          setProgress({ completedSteps: [], stepAnswers: {}, lastActiveStep: 1 })
+          setCompletedSteps([])
+          send({ type: 'START', isStarterPlan: true })
+          return
+        }
 
         const { data } = await api.get<OnboardingProgressResponse>(
           '/onboarding/progress'
