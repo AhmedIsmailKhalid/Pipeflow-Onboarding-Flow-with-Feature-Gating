@@ -1,0 +1,61 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="_HzKvs--tyP-u7iAB2Yj">
+    <mxGraphModel dx="968" dy="564" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="9020S566sfy1V0i5XRS2-20" edge="1" parent="1" source="9020S566sfy1V0i5XRS2-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;" target="9020S566sfy1V0i5XRS2-12" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E4F2FC;strokeColor=#6c8ebf;strokeWidth=3;" value="" vertex="1">
+          <mxGeometry height="210" width="720" x="120" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=20;fontStyle=1" value="&lt;font style=&quot;color: rgb(108, 142, 191);&quot;&gt;CLIENT (Vercel)&amp;nbsp; &amp;nbsp;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="195" x="382.5" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-9" edge="1" parent="1" source="9020S566sfy1V0i5XRS2-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeWidth=2;" target="9020S566sfy1V0i5XRS2-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=3;strokeColor=#6C8EBF;fontSize=15;" value="&lt;b&gt;&amp;nbsp;XState Machine&lt;br&gt;&lt;/b&gt;&lt;br&gt;onboarding.machine.ts" vertex="1">
+          <mxGeometry height="70" width="170" x="190" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-11" edge="1" parent="1" source="9020S566sfy1V0i5XRS2-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" target="9020S566sfy1V0i5XRS2-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=3;strokeColor=#6C8EBF;fontSize=15;" value="&lt;b&gt;&amp;nbsp;Zustand Stores&lt;br&gt;&lt;/b&gt;&lt;br&gt;auth / onboard / feature" vertex="1">
+          <mxGeometry height="70" width="170" x="410" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-10" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=3;strokeColor=#6C8EBF;fontSize=15;" value="&lt;b&gt;Feature Gate&lt;br&gt;&lt;/b&gt;&lt;br&gt;evaluator" vertex="1">
+          <mxGeometry height="70" width="140" x="630" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-25" edge="1" parent="1" source="9020S566sfy1V0i5XRS2-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeWidth=3;" target="9020S566sfy1V0i5XRS2-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-12" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F4E7FA;strokeColor=#9673A6;strokeWidth=3;" value="" vertex="1">
+          <mxGeometry height="440" width="720" x="120" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-14" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=20;fontStyle=1;fontColor=#9673A6;" value="&lt;font style=&quot;&quot;&gt;BACKEND (Google Cloud Run)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="300" x="330" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-16" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=3;strokeColor=#9673A6;align=center;fontSize=15;" value="&lt;div&gt;&lt;b style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; Auth Routes&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;/b&gt;&lt;/div&gt;&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; • /auth/login&lt;/span&gt;&lt;/div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;• /auth/signup&lt;/span&gt;&lt;/div&gt;&lt;/span&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&lt;/span&gt;• /auth/refresh&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="160" x="150" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-22" edge="1" parent="1" source="9020S566sfy1V0i5XRS2-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" target="9020S566sfy1V0i5XRS2-21" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-17" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=3;strokeColor=#9673A6;align=center;fontSize=15;" value="&lt;div&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;b&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp;Onboarding Routes&lt;/b&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;b&gt;&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;br&gt;&lt;br&gt;GET/POST/onboarding/progress&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="240" x="360" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=3;strokeColor=#9673A6;align=center;fontSize=15;" value="&lt;div&gt;&lt;b&gt;Pan Routes&lt;/b&gt;&lt;br&gt;&lt;br&gt;POST/plan/upgrade&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="160" x="650" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-21" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=3;strokeColor=#9673A6;align=center;fontSize=15;" value="&lt;div&gt;&lt;div&gt;&lt;b style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; Prisma ORM&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;/b&gt;&lt;/div&gt;&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; • User&lt;/span&gt;&lt;/div&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;• OnboardingProgress&lt;/span&gt;&lt;/div&gt;&lt;/span&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;/span&gt;• PlanUpgrade&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="200" x="380" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="9020S566sfy1V0i5XRS2-23" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E3F4E2;strokeColor=#82B366;strokeWidth=3;fontSize=20;fontColor=#82B366;" value="&lt;b&gt;Neon (Serverless PostgreSQL)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="720" x="120" y="840" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
