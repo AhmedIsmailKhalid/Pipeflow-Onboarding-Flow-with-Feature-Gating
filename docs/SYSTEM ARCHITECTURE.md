@@ -4,6 +4,7 @@
 
 Pipeflow is a **single-page application** with a lean REST API backend. The architectural complexity lives entirely on the frontend — specifically in the XState onboarding machine and the feature gate system. The backend is a thin persistence and auth layer.
 
+![Architecture Overview](/assets/Architecture-Overview.png)
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                        USER BROWSER                         │
@@ -61,39 +62,8 @@ Pipeflow is a **single-page application** with a lean REST API backend. The arch
 
 The onboarding flow is modelled as a **finite state machine**. This is the engineering centrepiece of the project.
 
-```
-                    ┌─────────┐
-            ┌──────►│  idle   │ (not started / unauthenticated)
-            │       └────┬────┘
-            │            │ START
-            │       ┌────▼────┐
-            │       │  step1  │ Profile (role, team size, use case)
-            │       └────┬────┘
-            │            │ NEXT [guard: step1Valid]
-            │       ┌────▼────┐
-            │       │  step2  │ Workspace (name, invite emails)
-            │       └────┬────┘
-            │            │ NEXT [guard: step2Valid]
-            │       ┌────▼────────────────────────┐
-            │       │  step3  │ Integrations        │
-            │       │  (optional — can SKIP)        │
-            │       └────┬────────────────────────-─┘
-            │            │ NEXT or SKIP
-            │       ┌────▼────┐
-            │       │  step4  │ Feature Tour (interactive highlights)
-            │       └────┬────┘
-            │            │ NEXT
-            │       ┌────▼────────┐
-            │       │   step5     │ Complete screen
-            │       └────┬────────┘
-            │            │ GO_TO_DASHBOARD
-            │       ┌────▼────────┐
-            │       │  complete   │ (terminal state)
-            └───────┴─────────────┘
-                 ABANDON (any step)
-                 → persists to backend
-                 → ResumeBanner shown on next login
-```
+![XState Onboarding Machine](/assets/XState-Onboarding.drawio.png)
+
 
 **Machine Context (carried through all states):**
 ```typescript
@@ -124,42 +94,8 @@ interface OnboardingContext {
 
 Feature gating checks two independent conditions:
 
-```
-Feature Gate Decision Tree
-──────────────────────────
+![Feature Gate Decision Tree](/assets/Feature-Gate-Architecture.png)
 
-                    ┌──────────────────────┐
-                    │   useFeatureGate()   │
-                    │   (called by any     │
-                    │    component)        │
-                    └──────────┬───────────┘
-                               │
-              ┌────────────────▼─────────────────┐
-              │       Check 1: Plan Tier          │
-              │  Does user's plan include         │
-              │  this feature key?                │
-              └────────┬─────────────┬────────────┘
-                       │ NO          │ YES
-               ┌───────▼──────┐     │
-               │ GATED        │     │
-               │ reason:      │     │
-               │ "upgrade"    │     │
-               │ show Upgrade │     │
-               │ Prompt       │     │
-               └──────────────┘     │
-                              ┌─────▼──────────────────────┐
-                              │  Check 2: Onboarding Step  │
-                              │  Does this feature require  │
-                              │  a specific step complete?  │
-                              └─────┬──────────┬────────────┘
-                                    │ NO       │ YES — is step done?
-                                    │          │
-                            ┌───────▼──┐  ┌────▼──────────────────┐
-                            │ ENABLED  │  │ GATED                 │
-                            │ render   │  │ reason: "complete step │
-                            │ children │  │ X to unlock"          │
-                            └──────────┘  └───────────────────────┘
-```
 
 **Feature Key → Gate Rule Map (defined in `lib/constants.ts`):**
 
@@ -297,8 +233,9 @@ Refresh
 │  (static build) │          │  portfolio-projects GCP   │
 │                 │          │                           │
 └─────────────────┘          └──────────┬────────────────┘
-                                       │
-                            ┌──────────▼────────────────┐
+                                        │
+                                        ▼
+                            ┌───────────────────────────┐
                             │    Neon PostgreSQL        │
                             │    (Serverless)           │
                             └───────────────────────────┘

@@ -1,11 +1,21 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Page-1" id="_HzKvs--tyP-u7iAB2Yj">
-    <mxGraphModel dx="968" dy="564" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1191" dy="642" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="9020S566sfy1V0i5XRS2-20" edge="1" parent="1" source="9020S566sfy1V0i5XRS2-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;" target="9020S566sfy1V0i5XRS2-12" value="">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_h9JlmdlrPckGuxAQ9MC-1" connectable="0" parent="9020S566sfy1V0i5XRS2-20" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontStyle=1;fontSize=15;" value="HTTPS / HTTP ONLY COOKIES" vertex="1">
+          <mxGeometry relative="1" x="-0.7513" y="2" as="geometry">
+            <mxPoint x="188" y="31" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_h9JlmdlrPckGuxAQ9MC-2" connectable="0" parent="9020S566sfy1V0i5XRS2-20" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=15;" value="&lt;b&gt;Axios Client&lt;/b&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.4092" y="1" as="geometry">
+            <mxPoint y="7" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="9020S566sfy1V0i5XRS2-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E4F2FC;strokeColor=#6c8ebf;strokeWidth=3;" value="" vertex="1">
           <mxGeometry height="210" width="720" x="120" y="20" as="geometry" />
