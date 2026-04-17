@@ -5,56 +5,6 @@
 Pipeflow is a **single-page application** with a lean REST API backend. The architectural complexity lives entirely on the frontend — specifically in the XState onboarding machine and the feature gate system. The backend is a thin persistence and auth layer.
 
 ![Architecture Overview](/assets/Architecture-Overview.png)
-```
-┌─────────────────────────────────────────────────────────────┐
-│                        USER BROWSER                         │
-│                                                             │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │                  React SPA (Vite)                    │   │
-│  │                                                      │   │
-│  │  ┌──────────────────┐    ┌──────────────────────┐    │   │
-│  │  │  XState Machine  │    │   Zustand Stores     │    │   │
-│  │  │  (Onboarding)    │◄──►│  auth / onboarding / │    │   │
-│  │  │                  │    │  feature             │    │   │
-│  │  └────────┬─────────┘    └──────────┬───────────┘    │   │
-│  │           │                         │                │   │
-│  │  ┌────────▼─────────────────────────▼───────────┐    │   │
-│  │  │           Component Layer                    │    │   │
-│  │  │  OnboardingShell / Steps / Dashboard /       │    │   │
-│  │  │  GatedFeature / UpgradePrompt                │    │   │
-│  │  └────────────────────────┬─────────────────────┘    │   │
-│  │                           │                          │   │
-│  │  ┌────────────────────────▼─────────────────────┐    │   │
-│  │  │     lib/api.ts (Axios + JWT interceptor)     │    │   │
-│  │  └────────────────────────┬─────────────────────┘    │   │
-│  └───────────────────────────┼──────────────────────────┘   │
-└──────────────────────────────┼──────────────────────────────┘
-                               │ HTTPS / REST
-                               │
-┌──────────────────────────────▼──────────────────────────────┐
-│                Express API (Google Cloud Run)               │
-│                                                             │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐   │
-│  │ auth routes  │  │  onboarding  │  │   plan routes    │   │
-│  │              │  │  routes      │  │                  │   │
-│  └──────┬───────┘  └──────┬───────┘  └────────┬─────────┘   │
-│         │                 │                   │             │
-│  ┌──────▼─────────────────▼───────────────────▼──────────┐  │
-│  │                   Service Layer                       │  │
-│  │         auth.service / onboarding.service /           │  │
-│  │         plan.service                                  │  │
-│  └──────────────────────────┬────────────────────────────┘  │
-│                             │                               │
-│  ┌──────────────────────────▼────────────────────────────┐  │
-│  │              Prisma ORM                               │  │
-│  └──────────────────────────┬────────────────────────────┘  │
-└─────────────────────────────┼───────────────────────────────┘
-                              │
-┌─────────────────────────────▼───────────────────────────────┐
-│              PostgreSQL — Neon (Serverless)                 │
-│   User / OnboardingProgress / PlanUpgrade                   │
-└─────────────────────────────────────────────────────────────┘
-```
 
 ---
 
