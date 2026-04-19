@@ -77,41 +77,7 @@ Feature gating checks two independent conditions:
 
 Onboarding state is persisted so users can leave and resume:
 
-```
-User completes Step 2
-        │
-        ▼
-XState NEXT event fired
-        │
-        ▼
-Machine transitions to step3
-        │
-        ▼
-usePersistProgress hook fires
-(subscribed to machine state changes)
-        │
-        ▼
-POST /onboarding/progress
-{ completedSteps: [1, 2], stepAnswers: {...}, lastActiveStep: 3 }
-        │
-        ▼
-Backend upserts OnboardingProgress row
-        │
-        ▼
-User closes browser / navigates away
-        │
-        ▼
-User logs back in
-        │
-        ▼
-GET /onboarding/progress
-        │
-        ▼
-Machine restored from persisted context
-        │
-        ▼
-ResumeBanner shown: "Pick up where you left off — Step 3 of 5"
-```
+![Progress Persistence](/assets/Progress-Persistence.png)
 
 ---
 
@@ -175,25 +141,11 @@ Refresh
 
 ## Deployment Architecture
 
-```
-┌─────────────────┐          ┌───────────────────────────┐
-│     Vercel      │          │    Google Cloud Run       │
-│                 │          │                           │
-│  Vite SPA       │──HTTPS──►│  Express API (Docker)     │
-│  (static build) │          │  portfolio-projects GCP   │
-│                 │          │                           │
-└─────────────────┘          └──────────┬────────────────┘
-                                        │
-                                        ▼
-                            ┌───────────────────────────┐
-                            │    Neon PostgreSQL        │
-                            │    (Serverless)           │
-                            └───────────────────────────┘
-```
+![Deployment Architecture](/assets/Deployment-Architecture.png)
 
-- Frontend: Vercel auto-deploys on push to `main` — zero config for Vite SPAs
-- Backend: GitHub Actions builds Docker image → pushes to GCP Artifact Registry → deploys to Cloud Run service `pipeflow-api` under existing `portfolio-projects-491501` GCP project
-- Database: Neon free tier — same pattern as Stackly
+- **Frontend**: Vercel auto-deploys on push to `main` — zero config for Vite SPAs
+- **Backend**: GitHub Actions builds Docker image → pushes to GCP Artifact Registry → deploys to Cloud Run service `pipeflow-api` under GCP project
+- **Database**: Neon free tier
 
 ---
 
